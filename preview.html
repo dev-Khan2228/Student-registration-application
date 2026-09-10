@@ -1,0 +1,1217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#06060e" />
+  <meta name="description" content="Student registration form — EduVerse Portal" />
+  <title>Student registration form | EduVerse Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // --- Lucide Icons (Inline SVGs) ---
+    const ICONS = {
+      cap: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>`,
+      sun: `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`,
+      moon: `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+      compass: `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>`,
+      fingerprint: `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/></svg>`,
+      radio: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>`,
+      award: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+      layers: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+      shieldCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
+      fileCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>`,
+      zap: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+      flame: `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
+      sparkles: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>`,
+      check: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+      checkCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+      badgeCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+      arrowRight: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`,
+      arrowLeft: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>`,
+      user: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>`,
+      userCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>`,
+      users: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      mail: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+      smartphone: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>`,
+      phone: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+      mapPin: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
+      hash: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>`,
+      chevronDown: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`,
+      copy: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`,
+      alert: `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>`,
+      help: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>`,
+      x: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
+      lock: `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+      edit: `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>`,
+      save: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>`,
+      logout: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>`
+    };
+
+    const STEPS = [
+      { id: 'personal', label: 'Personal', icon: 'fingerprint', kicker: '01' },
+      { id: 'contact', label: 'Contact', icon: 'radio', kicker: '02' },
+      { id: 'academic', label: 'Academic', icon: 'award', kicker: '03' },
+      { id: 'course', label: 'Course', icon: 'layers', kicker: '04' },
+      { id: 'parent', label: 'Parent', icon: 'shieldCheck', kicker: '05' },
+      { id: 'terms', label: 'Terms', icon: 'fileCheck', kicker: '06' }
+    ];
+
+    const STATES = ['Andhra Pradesh','Telangana','Tamil Nadu','Karnataka','Kerala','Maharashtra','Delhi','Other'];
+    const YEARS = ['2022','2023','2024','2025','2026','2027'];
+
+    const DEMO_STUDENT = {
+      photo: '', fullName: 'Aarav Sharma', dob: '2005-06-15', gender: 'Male', bloodGroup: 'O+',
+      idNumber: '784938291048', nationality: 'Indian', category: 'General',
+      email: 'aarav.sharma@eduverse.ac.in', mobile: '9876543210', alternatePhone: '9876500000',
+      address: '42 Silicon Boulevard, HITEC City', city: 'Hyderabad', state: 'Telangana', pin: '500081',
+      school10: 'Delhi Public School', percent10: '94.8%', year10: '2022',
+      college12: 'Apex Junior College', percent12: '96.2%', year12: '2024',
+      entrance: 'JEE Mains (Score: 98.4%)',
+      application: 'EDU-APP-2026-904', course: 'B.Tech — Computer Science',
+      academicYear: '2026–27', admissionType: 'Merit', specialization: 'Artificial Intelligence & Machine Learning',
+      father: 'Rajesh Sharma', mother: 'Sunita Sharma', guardian: '', occupation: 'Senior Architect',
+      parentMobile: '9848012345', income: '₹10–20 Lakhs', terms: true
+    };
+
+    // State Variables
+    let view = 'register'; // 'register' | 'login' | 'portal' | 'edit'
+    let step = 0;
+    let editTab = 'personal';
+    let data = { ...DEMO_STUDENT, ...(JSON.parse(localStorage.getItem('eduverse-form') || '{}')) };
+    let dark = localStorage.getItem('eduverse-theme') !== 'light';
+    let auth = JSON.parse(localStorage.getItem('eduverse-auth') || '{"isLoggedIn":false}');
+    let registrationId = localStorage.getItem('eduverse-reg-id') || 'EDU-2026-784920';
+    let errors = {};
+    let toast = '';
+    let submitted = false;
+    let toastTimeout = null;
+
+    function save() {
+      localStorage.setItem('eduverse-form', JSON.stringify(data));
+      localStorage.setItem('eduverse-theme', dark ? 'dark' : 'light');
+      localStorage.setItem('eduverse-auth', JSON.stringify(auth));
+      localStorage.setItem('eduverse-reg-id', registrationId);
+    }
+
+    function setToast(msg) {
+      toast = msg;
+      if (toastTimeout) clearTimeout(toastTimeout);
+      render();
+      if (msg) toastTimeout = setTimeout(() => { toast = ''; render(); }, 3200);
+    }
+
+    function update(k, v) {
+      data[k] = v;
+      errors[k] = '';
+      save();
+      render();
+    }
+
+    function toggleTheme() {
+      dark = !dark;
+      save();
+      render();
+    }
+
+    function validate(idx) {
+      const e = {};
+      const req = (k, msg) => { if (!String(data[k] ?? '').trim()) e[k] = msg; };
+      if (idx === 0) {
+        req('fullName', 'Full name is required.');
+        req('dob', 'Date of birth is required.');
+        req('gender', 'Select a gender.');
+        req('bloodGroup', 'Select a blood group.');
+        req('idNumber', 'ID number is required.');
+        req('category', 'Select a category.');
+        if (data.idNumber && !/^\d{4,16}$/.test(data.idNumber.replace(/\s/g,''))) {
+          e.idNumber = 'Enter a valid numeric ID (4–16 digits).';
+        }
+      } else if (idx === 1) {
+        req('email', 'Email address is required.');
+        req('mobile', 'Mobile number is required.');
+        req('address', 'Address is required.');
+        req('city', 'City is required.');
+        req('state', 'Select a state.');
+        req('pin', 'PIN code is required.');
+        if (data.email && !/^\S+@\S+\.\S+$/.test(data.email)) e.email = 'Enter a valid email address.';
+        if (data.mobile && !/^\d{10}$/.test(data.mobile.replace(/\D/g,''))) e.mobile = 'Enter a 10-digit mobile number.';
+        if (data.pin && !/^\d{6}$/.test(data.pin.replace(/\D/g,''))) e.pin = 'Enter a 6-digit PIN code.';
+      } else if (idx === 2) {
+        req('school10', '10th school name is required.');
+        req('percent10', '10th percentage / CGPA is required.');
+        req('year10', '10th passing year is required.');
+        req('college12', '12th college name is required.');
+        req('percent12', '12th percentage / CGPA is required.');
+        req('year12', '12th passing year is required.');
+      } else if (idx === 3) {
+        req('application', 'Application number is required.');
+        req('course', 'Select a course / branch.');
+        req('academicYear', 'Select academic year.');
+        req('admissionType', 'Select admission type.');
+        req('specialization', 'Select a specialization.');
+      } else if (idx === 4) {
+        req('father', "Father's name is required.");
+        req('mother', "Mother's name is required.");
+        req('occupation', 'Parent occupation is required.');
+        req('parentMobile', 'Parent mobile number is required.');
+        req('income', 'Select annual family income.');
+        if (data.parentMobile && !/^\d{10}$/.test(data.parentMobile.replace(/\D/g,''))) e.parentMobile = 'Enter a 10-digit mobile number.';
+      } else if (idx === 5) {
+        if (!data.terms) e.terms = 'You must accept the Terms and Conditions Applied.';
+      }
+      errors = e;
+      return Object.keys(e).length === 0;
+    }
+
+    function goNext() {
+      if (validate(step)) {
+        step = Math.min(step + 1, STEPS.length - 1);
+        errors = {};
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        render();
+      } else {
+        setToast('Please complete all highlighted fields.');
+      }
+    }
+
+    function goBack() {
+      errors = {};
+      step = Math.max(step - 1, 0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      render();
+    }
+
+    function jump(i) {
+      if (i <= step) {
+        errors = {};
+        step = i;
+        render();
+      }
+    }
+
+    function submitForm() {
+      if (!validate(5)) {
+        setToast('Please accept the Terms and Conditions.');
+        render();
+        return;
+      }
+      registrationId = `EDU-${new Date().getFullYear()}-${Math.floor(100000 + Math.random()*900000)}`;
+      submitted = true;
+      auth = { isLoggedIn: true, user: data.fullName, email: data.email, id: registrationId };
+      save();
+      render();
+    }
+
+    function resetForm() {
+      data = { ...DEMO_STUDENT };
+      step = 0;
+      errors = {};
+      submitted = false;
+      view = 'register';
+      save();
+      render();
+    }
+
+    function copyId() {
+      navigator.clipboard.writeText(registrationId).then(() => {
+        const btn = document.getElementById('copyBtn');
+        if (btn) btn.innerHTML = `${ICONS.badgeCheck} <span>Copied</span>`;
+        setTimeout(() => {
+          if (btn) btn.innerHTML = `${ICONS.copy} <span>Copy</span>`;
+        }, 2000);
+      });
+    }
+
+    function handlePhoto(e) {
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+      if (f.size > 5 * 1024 * 1024) {
+        alert('Please choose an image smaller than 5 MB.');
+        return;
+      }
+      update('photo', URL.createObjectURL(f));
+    }
+
+    function handleDemoLogin() {
+      auth = { isLoggedIn: true, user: data.fullName || 'Aarav Sharma', email: data.email || 'aarav.sharma@eduverse.ac.in', id: registrationId };
+      save();
+      view = 'portal';
+      setToast('Logged in successfully! Welcome to your student portal.');
+    }
+
+    function handleLogout() {
+      auth = { isLoggedIn: false, user: null };
+      save();
+      view = 'login';
+      setToast('You have been logged out.');
+    }
+
+    function saveEdits() {
+      save();
+      setToast('Registration details updated successfully! Status: Registration Successful.');
+      view = 'portal';
+      render();
+    }
+
+    // --- HTML Helper Generators ---
+    function renderField(label, key, type='text', placeholder='', required=true, iconName='', help='') {
+      const err = errors[key] || '';
+      const val = data[key] ?? '';
+      const iconSvg = iconName && ICONS[iconName] ? `<span class="input-icon">${ICONS[iconName]}</span>` : (type==='email' ? `<span class="input-icon">${ICONS.mail}</span>` : '');
+      return `
+        <label class="field ${err ? 'has-error' : ''}">
+          <span class="field-label">
+            <span>${label}</span>
+            ${required ? '<b title="Required field">*</b>' : ''}
+          </span>
+          <div class="input-wrap">
+            <input type="${type}" value="${val}" oninput="update('${key}', this.value)" placeholder="${placeholder || 'Enter ' + label.toLowerCase()}" />
+            ${iconSvg}
+          </div>
+          ${help ? `<small>${help}</small>` : ''}
+          ${err ? `<em>${ICONS.alert} ${err}</em>` : ''}
+        </label>
+      `;
+    }
+
+    function renderSelect(label, key, options, required=true) {
+      const err = errors[key] || '';
+      const val = data[key] ?? '';
+      const optHtml = options.map(o => `<option value="${o}" ${val === o ? 'selected' : ''}>${o}</option>`).join('');
+      return `
+        <label class="field ${err ? 'has-error' : ''}">
+          <span class="field-label">
+            <span>${label}</span>
+            ${required ? '<b title="Required field">*</b>' : ''}
+          </span>
+          <div class="input-wrap select-wrap">
+            <select onchange="update('${key}', this.value)">
+              <option value="">Select ${label.toLowerCase()}</option>
+              ${optHtml}
+            </select>
+            <span class="select-chevron">${ICONS.chevronDown}</span>
+          </div>
+          ${err ? `<em>${ICONS.alert} ${err}</em>` : ''}
+        </label>
+      `;
+    }
+
+    function renderSiteFooter() {
+      return `
+        <footer class="site-footer">
+          <div class="footer-inner">
+            <div class="footer-top">
+              <div class="footer-brand">
+                <span style="color: var(--cyan);">${ICONS.cap}</span>
+                <div>
+                  <strong>EduVerse Institute of Higher Education & Technology</strong>
+                  <span>Autonomous University • NAAC 'A++' Grade • AICTE & UGC Approved</span>
+                </div>
+              </div>
+              <div class="accreditation-badges">
+                <span class="acc-badge">${ICONS.shieldCheck} NAAC A++ ACCREDITED</span>
+                <span class="acc-badge">${ICONS.badgeCheck} AICTE & UGC RECOGNIZED</span>
+                <span class="acc-badge">${ICONS.award} NIRF TOP 50 RANKED</span>
+              </div>
+            </div>
+
+            <div class="footer-links-grid">
+              <div class="footer-col">
+                <h4>Institutional Policies</h4>
+                <ul>
+                  <li><a href="#terms">${ICONS.fileCheck} Terms & Conditions Applied</a></li>
+                  <li><a href="#privacy">${ICONS.shieldCheck} Student Privacy Policy</a></li>
+                  <li><a href="#antiragging">${ICONS.alert} Anti-Ragging Mandatory Policy</a></li>
+                  <li><a href="#refund">${ICONS.fileCheck} Fee Structure & Refund Rules</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h4>Admission Guidelines</h4>
+                <ul>
+                  <li><a href="#criteria">${ICONS.compass} Eligibility & Reservation Criteria</a></li>
+                  <li><a href="#verification">${ICONS.badgeCheck} Document Scrutiny Protocol</a></li>
+                  <li><a href="#scholarship">${ICONS.sparkles} Merit Scholarships 2026–27</a></li>
+                  <li><a href="#hostel">${ICONS.mapPin} Campus & Hostel Guidelines</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h4>Candidate Support</h4>
+                <ul>
+                  <li><a href="#helpdesk">${ICONS.help} Central Admissions Helpdesk</a></li>
+                  <li><a href="#grievance">${ICONS.mail} Student Grievance Redressal</a></li>
+                  <li><a href="#helpline">${ICONS.phone} Toll-Free Helpline: 1800-EDU-2026</a></li>
+                  <li><a href="#portal">${ICONS.zap} Technical Support Cell</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h4>Terms & Compliance Note</h4>
+                <div class="footer-disclaimer">
+                  <strong>Important Notice:</strong> Terms & conditions applied to all student registrations. Provisional admission is subject to physical verification of original mark sheets. Please use sample records for classroom viva demonstration.
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-bottom">
+              <span>© 2026 EduVerse Higher Education Admissions. All Rights Reserved.</span>
+              <div class="footer-legal-pills">
+                <span>Terms of Admission Applied</span>
+                <span>Privacy Compliance</span>
+                <span>Institutional Governance</span>
+                <span>Security Statement</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      `;
+    }
+
+    function renderHeader() {
+      return `
+        <header class="topbar">
+          <div class="brand" onclick="view = (auth.isLoggedIn ? 'portal' : 'register'); render();">
+            <div class="brand-mark">
+              ${ICONS.cap}
+              <span class="brand-pulse"></span>
+            </div>
+            <div>
+              <div class="brand-title-wrap">
+                <strong>Student registration form</strong>
+                <span class="hype-badge">v2.5</span>
+              </div>
+              <small>EduVerse Academic Portal • Admissions 2026–27</small>
+            </div>
+          </div>
+
+          <div class="nav-links">
+            <button class="nav-link ${view === 'register' ? 'active' : ''}" onclick="view = 'register'; submitted = false; render();">
+              ${ICONS.fingerprint} New Registration
+            </button>
+            ${auth.isLoggedIn ? `
+              <button class="nav-link ${view === 'portal' || view === 'edit' ? 'active' : ''}" onclick="view = 'portal'; render();">
+                ${ICONS.badgeCheck} Student Portal
+              </button>
+            ` : `
+              <button class="nav-link ${view === 'login' ? 'active' : ''}" onclick="view = 'login'; render();">
+                ${ICONS.user} Student Login
+              </button>
+            `}
+          </div>
+
+          <div class="top-actions">
+            ${auth.isLoggedIn ? `
+              <div class="user-badge">
+                ${ICONS.user}
+                <span>${auth.user || 'Student'}</span>
+                <button onclick="handleLogout()" title="Logout" style="background:transparent;border:none;color:inherit;cursor:pointer;display:flex;align-items:center;margin-left:6px;">
+                  ${ICONS.logout}
+                </button>
+              </div>
+            ` : `
+              <div class="telemetry-pill">
+                <span class="live-dot"></span>
+                <span class="live-text">PORTAL ONLINE</span>
+              </div>
+            `}
+            <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+              ${dark ? ICONS.sun : ICONS.moon}
+            </button>
+          </div>
+        </header>
+      `;
+    }
+
+    function render() {
+      const app = document.getElementById('app');
+
+      // 1. LOGIN VIEW
+      if (view === 'login') {
+        app.innerHTML = `
+          <div class="app ${dark ? 'dark' : 'light'}">
+            <div class="campus-backdrop"></div>
+            <div class="aurora aurora-one"></div>
+            <div class="aurora aurora-two"></div>
+            <div class="aurora aurora-three"></div>
+            <div class="cyber-grid"></div>
+            <div class="scanlines"></div>
+
+            ${renderHeader()}
+
+            <main class="login-screen">
+              <div class="login-card">
+                <div class="card-shine"></div>
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-tr"></div>
+                <div class="corner corner-bl"></div>
+                <div class="corner corner-br"></div>
+
+                <div class="login-icon-box">
+                  ${ICONS.lock}
+                </div>
+
+                <h2>Student Portal Login</h2>
+                <p>Access your application status, inspect registration records, and edit details.</p>
+
+                <button type="button" class="demo-login-pill" onclick="handleDemoLogin()">
+                  ${ICONS.zap}
+                  <span>One-Click Demo Student Sign In</span>
+                </button>
+
+                <form onsubmit="event.preventDefault(); handleDemoLogin();">
+                  <div class="field" style="margin-bottom:14px;">
+                    <span class="field-label">Email or Registration ID <b>*</b></span>
+                    <div class="input-wrap">
+                      <input type="text" value="${data.email || 'aarav.sharma@eduverse.ac.in'}" placeholder="student@eduverse.ac.in" />
+                      <span class="input-icon">${ICONS.mail}</span>
+                    </div>
+                  </div>
+
+                  <div class="field" style="margin-bottom:18px;">
+                    <span class="field-label">Account Password <b>*</b></span>
+                    <div class="input-wrap">
+                      <input type="password" value="EduVerse@2026" />
+                      <span class="input-icon">${ICONS.shieldCheck}</span>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="primary login-submit">
+                    <span>Sign In to Student Portal</span>
+                    ${ICONS.arrowRight}
+                  </button>
+                </form>
+
+                <div class="login-switch">
+                  <span>New candidate seeking admission?</span>
+                  <button type="button" onclick="view = 'register'; render();">Start Registration Form →</button>
+                </div>
+              </div>
+            </main>
+
+            ${renderSiteFooter()}
+          </div>
+        `;
+        return;
+      }
+
+      // 2. STUDENT PORTAL DASHBOARD
+      if (view === 'portal') {
+        app.innerHTML = `
+          <div class="app ${dark ? 'dark' : 'light'}">
+            <div class="campus-backdrop"></div>
+            <div class="aurora aurora-one"></div>
+            <div class="aurora aurora-two"></div>
+            <div class="aurora aurora-three"></div>
+            <div class="cyber-grid"></div>
+            <div class="scanlines"></div>
+
+            ${renderHeader()}
+
+            <main class="portal-wrap">
+              <div class="portal-hero">
+                <div class="card-shine"></div>
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-tr"></div>
+                <div class="corner corner-bl"></div>
+                <div class="corner corner-br"></div>
+
+                <div class="status-highlight-card">
+                  <div class="status-left">
+                    <div class="status-beacon">
+                      ${ICONS.checkCircle}
+                    </div>
+                    <div class="status-title-wrap">
+                      <span>OFFICIAL ADMISSION STATUS</span>
+                      <h2>Registration Status: Registration Successful</h2>
+                    </div>
+                  </div>
+
+                  <div class="status-badge-live">
+                    <span class="live-dot"></span>
+                    <span>VERIFIED & CONFIRMED</span>
+                  </div>
+                </div>
+
+                <div class="pipeline-track">
+                  <div class="pipeline-step active">
+                    <div class="pipeline-icon">${ICONS.check}</div>
+                    <div>
+                      <strong>1. Form Submitted</strong>
+                      <span>Registration logged in official portal</span>
+                    </div>
+                  </div>
+                  <div class="pipeline-step active">
+                    <div class="pipeline-icon">${ICONS.check}</div>
+                    <div>
+                      <strong>2. Documents Verified</strong>
+                      <span>Academic credentials validated</span>
+                    </div>
+                  </div>
+                  <div class="pipeline-step active">
+                    <div class="pipeline-icon">${ICONS.badgeCheck}</div>
+                    <div>
+                      <strong>3. Admission Allocated</strong>
+                      <span>Ready for Academic Year 2026–27</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="action-bar">
+                  <button class="primary" onclick="view = 'edit'; render();">
+                    ${ICONS.edit}
+                    <span>Edit Registration Details</span>
+                  </button>
+                  <button class="secondary" onclick="window.print()">
+                    ${ICONS.fileCheck}
+                    <span>Print Application Slip</span>
+                  </button>
+                  <button class="secondary" onclick="handleLogout()" style="margin-left:auto;">
+                    ${ICONS.logout}
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="portal-grid">
+                <div class="portal-card">
+                  <div class="portal-card-head">
+                    ${ICONS.fingerprint}
+                    <h3>Personal Information</h3>
+                  </div>
+                  <div class="info-rows">
+                    <div class="info-row"><span>Student Name</span><strong>${data.fullName || '—'}</strong></div>
+                    <div class="info-row"><span>Official Reg ID</span><strong style="color:var(--cyan);font-family:var(--font-mono);">${registrationId}</strong></div>
+                    <div class="info-row"><span>Date of Birth</span><strong>${data.dob || '—'}</strong></div>
+                    <div class="info-row"><span>Gender & Blood Group</span><strong>${data.gender || '—'} (${data.bloodGroup || '—'})</strong></div>
+                    <div class="info-row"><span>ID / Aadhaar</span><strong style="font-family:var(--font-mono);">${data.idNumber || '—'}</strong></div>
+                    <div class="info-row"><span>Category</span><strong>${data.category || 'General'}</strong></div>
+                  </div>
+                </div>
+
+                <div class="portal-card">
+                  <div class="portal-card-head">
+                    ${ICONS.radio}
+                    <h3>Contact Telemetry</h3>
+                  </div>
+                  <div class="info-rows">
+                    <div class="info-row"><span>Email Address</span><strong>${data.email || '—'}</strong></div>
+                    <div class="info-row"><span>Mobile Number</span><strong style="font-family:var(--font-mono);">${data.mobile || '—'}</strong></div>
+                    <div class="info-row"><span>Alternate Contact</span><strong style="font-family:var(--font-mono);">${data.alternatePhone || 'None'}</strong></div>
+                    <div class="info-row"><span>City & State</span><strong>${data.city ? data.city + ', ' + data.state : '—'}</strong></div>
+                    <div class="info-row"><span>PIN Code</span><strong style="font-family:var(--font-mono);">${data.pin || '—'}</strong></div>
+                    <div class="info-row"><span>Street Address</span><strong>${data.address || '—'}</strong></div>
+                  </div>
+                </div>
+
+                <div class="portal-card">
+                  <div class="portal-card-head">
+                    ${ICONS.award}
+                    <h3>Academic Background</h3>
+                  </div>
+                  <div class="info-rows">
+                    <div class="info-row"><span>10th School</span><strong>${data.school10 || '—'}</strong></div>
+                    <div class="info-row"><span>10th Marks / Year</span><strong>${data.percent10 || '—'} (${data.year10 || '—'})</strong></div>
+                    <div class="info-row"><span>12th College</span><strong>${data.college12 || '—'}</strong></div>
+                    <div class="info-row"><span>12th Marks / Year</span><strong>${data.percent12 || '—'} (${data.year12 || '—'})</strong></div>
+                    <div class="info-row"><span>Entrance Exam</span><strong>${data.entrance || 'Direct Admission'}</strong></div>
+                  </div>
+                </div>
+
+                <div class="portal-card">
+                  <div class="portal-card-head">
+                    ${ICONS.layers}
+                    <h3>Course & Guardian Record</h3>
+                  </div>
+                  <div class="info-rows">
+                    <div class="info-row"><span>Enrolled Course</span><strong style="color:var(--cyan);">${data.course || 'B.Tech — Computer Science'}</strong></div>
+                    <div class="info-row"><span>Specialization</span><strong>${data.specialization || 'AI & Machine Learning'}</strong></div>
+                    <div class="info-row"><span>Batch / Year</span><strong>${data.academicYear || '2026–27'} (${data.admissionType || 'Merit'})</strong></div>
+                    <div class="info-row"><span>Parents' Names</span><strong>${data.father} & ${data.mother}</strong></div>
+                    <div class="info-row"><span>Parent Mobile</span><strong style="font-family:var(--font-mono);">${data.parentMobile || '—'}</strong></div>
+                    <div class="info-row"><span>Family Income</span><strong>${data.income || '—'}</strong></div>
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            ${renderSiteFooter()}
+          </div>
+        `;
+        return;
+      }
+
+      // 3. EDIT REGISTRATION DETAILS VIEW
+      if (view === 'edit') {
+        let editContent = '';
+        if (editTab === 'personal') {
+          editContent = `
+            <div class="form-grid personal-grid">
+              <div class="photo-column">
+                <label class="photo-box">
+                  ${data.photo ? `<img src="${data.photo}" alt="Student preview" />` : `
+                    <div class="photo-placeholder">
+                      <div class="avatar-ring">
+                        <span style="display:grid;place-items:center;transform:scale(1.7);">${ICONS.fingerprint}</span>
+                      </div>
+                      <strong>Upload Photo</strong>
+                    </div>
+                  `}
+                  <input type="file" accept="image/png,image/jpeg,image/webp" onchange="handlePhoto(event)" />
+                </label>
+              </div>
+              <div class="fields-grid">
+                ${renderField('Full Name', 'fullName', 'text', 'As per official records', true, 'user')}
+                ${renderField('Date of Birth', 'dob', 'date', '', true)}
+                ${renderSelect('Gender', 'gender', ['Male', 'Female', 'Other'])}
+                ${renderSelect('Blood Group', 'bloodGroup', ['A+','A-','B+','B-','AB+','AB-','O+','O-'])}
+                <div class="full">${renderField('Aadhaar / ID Number', 'idNumber', 'text', 'Numeric ID', true, 'hash')}</div>
+                ${renderSelect('Nationality', 'nationality', ['Indian', 'Other'])}
+                ${renderSelect('Category', 'category', ['General', 'OBC', 'SC', 'ST', 'EWS'])}
+              </div>
+            </div>
+          `;
+        } else if (editTab === 'contact') {
+          editContent = `
+            <div class="form-grid two">
+              ${renderField('Email Address', 'email', 'email', 'example@gmail.com', true, 'mail')}
+              ${renderField('Mobile Number', 'mobile', 'text', '10-digit mobile number', true, 'smartphone')}
+              ${renderField('Alternate Phone', 'alternatePhone', 'text', 'Optional alternate number', false, 'phone')}
+              <div class="full">${renderField('Address', 'address', 'text', 'House / street / locality / landmark', true, 'mapPin')}</div>
+              ${renderField('City', 'city', 'text', 'City', true)}
+              ${renderSelect('State', 'state', STATES)}
+              ${renderField('PIN Code', 'pin', 'text', '6-digit PIN', true, 'hash')}
+            </div>
+          `;
+        } else if (editTab === 'academic') {
+          editContent = `
+            <h3 class="subhead"><span>10th / SSC</span><i></i></h3>
+            <div class="form-grid three">
+              ${renderField('School Name', 'school10', 'text', 'School Name', true)}
+              ${renderField('Percentage / CGPA', 'percent10', 'text', 'e.g. 9.2 / 92%', true)}
+              ${renderSelect('Passing Year', 'year10', YEARS)}
+            </div>
+            <h3 class="subhead"><span>12th / Intermediate</span><i></i></h3>
+            <div class="form-grid three">
+              ${renderField('College Name', 'college12', 'text', 'College Name', true)}
+              ${renderField('Percentage / CGPA', 'percent12', 'text', 'e.g. 9.0 / 90%', true)}
+              ${renderSelect('Passing Year', 'year12', YEARS)}
+            </div>
+            <div class="form-grid" style="margin-top:16px;">
+              ${renderField('Entrance Exam Details', 'entrance', 'text', 'e.g. JEE, EAMCET, NEET, or None', false, 'sparkles')}
+            </div>
+          `;
+        } else if (editTab === 'course') {
+          editContent = `
+            <div class="form-grid two">
+              ${renderField('Application Number', 'application', 'text', 'Enter application number', true, 'hash')}
+              ${renderSelect('Course / Branch', 'course', [
+                'B.Tech — Computer Science',
+                'B.Tech — Information Technology',
+                'B.Tech — Electronics & Communication',
+                'B.Tech — Mechanical Engineering',
+                'B.Sc — Computer Science',
+                'BBA'
+              ])}
+              ${renderSelect('Academic Year', 'academicYear', ['2026–27', '2027–28'])}
+              ${renderSelect('Admission Type', 'admissionType', ['Merit', 'Entrance Exam', 'Management', 'Other'])}
+              <div class="full">
+                ${renderSelect('Preferred Specialization', 'specialization', [
+                  'Artificial Intelligence & Machine Learning',
+                  'Data Science',
+                  'Cyber Security',
+                  'Cloud Computing',
+                  'Not Applicable'
+                ])}
+              </div>
+            </div>
+          `;
+        } else if (editTab === 'parent') {
+          editContent = `
+            <div class="form-grid two">
+              ${renderField("Father's Name", 'father', 'text', "Father's Name", true, 'user')}
+              ${renderField("Mother's Name", 'mother', 'text', "Mother's Name", true, 'user')}
+              ${renderField('Guardian Name', 'guardian', 'text', 'Optional if parents are primary contacts', false)}
+              ${renderField('Parent Occupation', 'occupation', 'text', 'Parent Occupation', true)}
+              ${renderField('Parent Mobile', 'parentMobile', 'text', '10-digit mobile number', true, 'smartphone')}
+              ${renderSelect('Annual Family Income', 'income', [
+                'Below ₹2 Lakhs', '₹2–5 Lakhs', '₹5–10 Lakhs', '₹10–20 Lakhs', 'Above ₹20 Lakhs'
+              ])}
+            </div>
+          `;
+        }
+
+        app.innerHTML = `
+          <div class="app ${dark ? 'dark' : 'light'}">
+            <div class="campus-backdrop"></div>
+            <div class="aurora aurora-one"></div>
+            <div class="aurora aurora-two"></div>
+            <div class="aurora aurora-three"></div>
+            <div class="cyber-grid"></div>
+            <div class="scanlines"></div>
+
+            ${renderHeader()}
+
+            <main class="portal-wrap">
+              <div class="form-card">
+                <div class="card-shine"></div>
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-tr"></div>
+                <div class="corner corner-bl"></div>
+                <div class="corner corner-br"></div>
+
+                <div class="section-head">
+                  <div class="eyebrow">${ICONS.edit} <span>STUDENT PROFILE MODIFICATION</span><i></i></div>
+                  <h1>Edit Registration Details</h1>
+                  <p>Update your registration information below. Changes will immediately sync to your student portal.</p>
+                </div>
+
+                <div class="edit-nav-pills">
+                  <button class="edit-nav-pill ${editTab === 'personal' ? 'active' : ''}" onclick="editTab='personal'; render();">01. Personal Info</button>
+                  <button class="edit-nav-pill ${editTab === 'contact' ? 'active' : ''}" onclick="editTab='contact'; render();">02. Contact Details</button>
+                  <button class="edit-nav-pill ${editTab === 'academic' ? 'active' : ''}" onclick="editTab='academic'; render();">03. Academic Records</button>
+                  <button class="edit-nav-pill ${editTab === 'course' ? 'active' : ''}" onclick="editTab='course'; render();">04. Course & Branch</button>
+                  <button class="edit-nav-pill ${editTab === 'parent' ? 'active' : ''}" onclick="editTab='parent'; render();">05. Parent / Guardian</button>
+                </div>
+
+                <div style="min-height:360px;">
+                  ${editContent}
+                </div>
+
+                <div class="form-footer">
+                  <button class="secondary" onclick="view='portal'; render();">
+                    ${ICONS.arrowLeft} Cancel & Return
+                  </button>
+                  <button class="primary" onclick="saveEdits()">
+                    ${ICONS.save}
+                    <span>Save Registration Changes</span>
+                  </button>
+                </div>
+              </div>
+            </main>
+
+            ${renderSiteFooter()}
+          </div>
+        `;
+        return;
+      }
+
+      // 4. REGISTRATION SUCCESS VIP PASS
+      if (submitted) {
+        app.innerHTML = `
+          <div class="app ${dark ? 'dark' : 'light'}">
+            <div class="campus-backdrop"></div>
+            <div class="aurora aurora-one"></div>
+            <div class="aurora aurora-two"></div>
+            <div class="aurora aurora-three"></div>
+            <div class="cyber-grid"></div>
+            <div class="scanlines"></div>
+
+            ${renderHeader()}
+
+            <main class="success-screen">
+              <div class="success-card">
+                <div class="hologram-band"></div>
+                <div class="success-spark one">${ICONS.sparkles}</div>
+                <div class="success-spark two">${ICONS.zap}</div>
+                
+                <div class="success-ring">${ICONS.checkCircle}</div>
+                
+                <div class="eyebrow">
+                  ${ICONS.badgeCheck}
+                  <span>REGISTRATION STATUS: REGISTRATION SUCCESSFUL</span>
+                  <i style="width:28px"></i>
+                </div>
+
+                <h1>Welcome to EduVerse, ${data.fullName ? data.fullName.split(' ')[0] : ''}!</h1>
+                <p>Your student admission registration has been successfully logged. Keep your official registration pass below for institutional reference.</p>
+
+                <div class="pass-card">
+                  <div class="pass-top">
+                    <div class="pass-chip">
+                      <span class="chip-line"></span>
+                      <span class="chip-line"></span>
+                    </div>
+                    <div class="pass-tag">OFFICIAL ADMISSION PASS</div>
+                  </div>
+
+                  <div class="pass-details">
+                    <div class="pass-item">
+                      <span>STUDENT NAME</span>
+                      <strong>${data.fullName || 'Registered Candidate'}</strong>
+                    </div>
+                    <div class="pass-item">
+                      <span>PROGRAM</span>
+                      <strong>${data.course ? data.course.split('—')[0] : 'Undergraduate'}</strong>
+                    </div>
+                    <div class="pass-item">
+                      <span>BATCH</span>
+                      <strong>${data.academicYear || '2026–27'}</strong>
+                    </div>
+                  </div>
+
+                  <div class="registration-id">
+                    <div class="id-left">
+                      <span>OFFICIAL REGISTRATION ID</span>
+                      <strong>${registrationId}</strong>
+                    </div>
+                    <button class="copy-btn" id="copyBtn" onclick="copyId()" title="Copy Registration ID">
+                      ${ICONS.copy}
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  
+                  <div class="pass-barcode"><div class="barcode-lines"></div></div>
+                </div>
+
+                <div class="success-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                  <button class="primary" onclick="view='portal'; render();">
+                    ${ICONS.badgeCheck}
+                    <span>Go to Student Portal & View Status</span>
+                  </button>
+                  <button class="secondary" onclick="resetForm()">
+                    <span>Register Another Student</span>
+                    ${ICONS.arrowRight}
+                  </button>
+                </div>
+
+                <div class="success-secure">
+                  ${ICONS.shieldCheck}
+                  <span>Registration Status: Registration Successful • Terms & Conditions Applied</span>
+                </div>
+              </div>
+            </main>
+
+            ${renderSiteFooter()}
+          </div>
+        `;
+        return;
+      }
+
+      // 5. REGISTRATION STEP WIZARD
+      let sectionHtml = '';
+      if (step === 0) {
+        sectionHtml = `
+          <div class="section-head">
+            <div class="eyebrow">${ICONS.zap} <span>01 / PERSONAL PROFILE</span><i></i></div>
+            <h1>Personal Information</h1>
+            <p>Let's get to know you better. Use your official details exactly as they appear on your records.</p>
+          </div>
+          <div class="form-grid personal-grid">
+            <div class="photo-column">
+              <label class="photo-box">
+                ${data.photo ? `<img src="${data.photo}" alt="Student preview" />` : `
+                  <div class="photo-placeholder">
+                    <div class="avatar-ring">
+                      <span style="display:grid;place-items:center;transform:scale(1.7);">${ICONS.fingerprint}</span>
+                      <span class="ring-pulse"></span>
+                    </div>
+                    <strong>Upload Photo</strong>
+                    <span>Passport-style portrait</span>
+                  </div>
+                `}
+                <div class="corner-bracket cb-tl"></div>
+                <div class="corner-bracket cb-tr"></div>
+                <div class="corner-bracket cb-bl"></div>
+                <div class="corner-bracket cb-br"></div>
+                <span class="camera">${ICONS.userCheck}</span>
+                <input type="file" accept="image/png,image/jpeg,image/webp" onchange="handlePhoto(event)" />
+              </label>
+              <div class="photo-meta"><span>JPG • PNG • WEBP</span><span>MAX 5 MB</span></div>
+            </div>
+
+            <div class="fields-grid">
+              ${renderField('Full Name', 'fullName', 'text', 'As per official records', true, 'user')}
+              ${renderField('Date of Birth', 'dob', 'date', '', true)}
+              ${renderSelect('Gender', 'gender', ['Male', 'Female', 'Other'])}
+              ${renderSelect('Blood Group', 'bloodGroup', ['A+','A-','B+','B-','AB+','AB-','O+','O-'])}
+              <div class="full">
+                ${renderField('Aadhaar / ID Number', 'idNumber', 'text', 'Numeric identification number', true, 'hash', 'For college demonstration, use sample data rather than a real ID.')}
+              </div>
+              ${renderSelect('Nationality', 'nationality', ['Indian', 'Other'])}
+              ${renderSelect('Category', 'category', ['General', 'OBC', 'SC', 'ST', 'EWS'])}
+            </div>
+          </div>
+        `;
+      } else if (step === 1) {
+        sectionHtml = `
+          <div class="section-head">
+            <div class="eyebrow">${ICONS.zap} <span>02 / CONTACT TELEMETRY</span><i></i></div>
+            <h1>Contact Information</h1>
+            <p>Keep your communication details current so the institution can reach you when it matters.</p>
+          </div>
+          <div class="contact-highlight">
+            <div class="highlight-icon">${ICONS.radio}</div>
+            <div>
+              <strong>Direct Communication Telemetry</strong>
+              <span>Ensure your mobile number and email address are active and accessible.</span>
+            </div>
+            <span class="highlight-end">${ICONS.smartphone}</span>
+          </div>
+          <div class="form-grid two">
+            ${renderField('Email Address', 'email', 'email', 'example@gmail.com', true, 'mail')}
+            ${renderField('Mobile Number', 'mobile', 'text', '10-digit mobile number', true, 'smartphone')}
+            ${renderField('Alternate Phone', 'alternatePhone', 'text', 'Optional alternate number', false, 'phone')}
+            <div class="full">
+              ${renderField('Address', 'address', 'text', 'House / street / locality / landmark', true, 'mapPin')}
+            </div>
+            ${renderField('City', 'city', 'text', 'City', true)}
+            ${renderSelect('State', 'state', STATES)}
+            ${renderField('PIN Code', 'pin', 'text', '6-digit PIN', true, 'hash')}
+          </div>
+        `;
+      } else if (step === 2) {
+        sectionHtml = `
+          <div class="section-head">
+            <div class="eyebrow">${ICONS.zap} <span>03 / ACADEMIC RECORD</span><i></i></div>
+            <h1>Academic Information</h1>
+            <p>Enter your educational background carefully. These details are used for admission records.</p>
+          </div>
+          <div class="academic-banner">
+            <div class="banner-art">${ICONS.award}</div>
+            <div>
+              <strong>Verified Academic Profile</strong>
+              <p>Use marks exactly as shown on your original certificates and grade sheets.</p>
+            </div>
+            <div class="banner-badge">${ICONS.badgeCheck} <span>VERIFIED FORMAT</span></div>
+          </div>
+          <h3 class="subhead"><span>10th / SSC</span><i></i></h3>
+          <div class="form-grid three">
+            ${renderField('School Name', 'school10', 'text', 'School Name', true)}
+            ${renderField('Percentage / CGPA', 'percent10', 'text', 'e.g. 9.2 / 92%', true)}
+            ${renderSelect('Passing Year', 'year10', YEARS)}
+          </div>
+          <h3 class="subhead"><span>12th / Intermediate</span><i></i></h3>
+          <div class="form-grid three">
+            ${renderField('College Name', 'college12', 'text', 'College Name', true)}
+            ${renderField('Percentage / CGPA', 'percent12', 'text', 'e.g. 9.0 / 90%', true)}
+            ${renderSelect('Passing Year', 'year12', YEARS)}
+          </div>
+          <div class="form-grid" style="margin-top:16px;">
+            ${renderField('Entrance Exam Details', 'entrance', 'text', 'e.g. JEE, EAMCET, NEET, or None', false, 'sparkles')}
+          </div>
+        `;
+      } else if (step === 3) {
+        sectionHtml = `
+          <div class="section-head">
+            <div class="eyebrow">${ICONS.zap} <span>04 / DEGREE & DISCIPLINE</span><i></i></div>
+            <h1>Course & College Details</h1>
+            <p>Choose the academic path that matches your goals and admission route.</p>
+          </div>
+          <div class="course-hero">
+            <div class="course-art">${ICONS.layers}</div>
+            <div>
+              <strong>Specialized Future Pathway</strong>
+              <span>Course preferences can be calibrated prior to final submission.</span>
+            </div>
+            <div class="mini-stat"><b>2026–27</b><span>ADMISSIONS</span></div>
+          </div>
+          <div class="form-grid two">
+            ${renderField('Application Number', 'application', 'text', 'Enter application number', true, 'hash')}
+            ${renderSelect('Course / Branch', 'course', [
+              'B.Tech — Computer Science',
+              'B.Tech — Information Technology',
+              'B.Tech — Electronics & Communication',
+              'B.Tech — Mechanical Engineering',
+              'B.Sc — Computer Science',
+              'BBA'
+            ])}
+            ${renderSelect('Academic Year', 'academicYear', ['2026–27', '2027–28'])}
+            ${renderSelect('Admission Type', 'admissionType', ['Merit', 'Entrance Exam', 'Management', 'Other'])}
+            <div class="full">
+              ${renderSelect('Preferred Specialization', 'specialization', [
+                'Artificial Intelligence & Machine Learning',
+                'Data Science',
+                'Cyber Security',
+                'Cloud Computing',
+                'Not Applicable'
+              ])}
+            </div>
+          </div>
+        `;
+      } else if (step === 4) {
+        sectionHtml = `
+          <div class="section-head">
+            <div class="eyebrow">${ICONS.zap} <span>05 / GUARDIAN NETWORK</span><i></i></div>
+            <h1>Parent / Guardian Details</h1>
+            <p>Provide a reliable family contact for important institutional communication.</p>
+          </div>
+          <div class="family-strip">
+            <div class="family-avatars">
+              <span>${ICONS.user}</span>
+              <span>${ICONS.shieldCheck}</span>
+            </div>
+            <div>
+              <strong>Trusted Family Network</strong>
+              <span>These details are used strictly for authorized academic and emergency communication.</span>
+            </div>
+            <span class="highlight-end">${ICONS.users}</span>
+          </div>
+          <div class="form-grid two">
+            ${renderField("Father's Name", 'father', 'text', "Father's Name", true, 'user')}
+            ${renderField("Mother's Name", 'mother', 'text', "Mother's Name", true, 'user')}
+            ${renderField('Guardian Name', 'guardian', 'text', 'Optional if parents are primary contacts', false)}
+            ${renderField('Parent Occupation', 'occupation', 'text', 'Parent Occupation', true)}
+            ${renderField('Parent Mobile', 'parentMobile', 'text', '10-digit mobile number', true, 'smartphone')}
+            ${renderSelect('Annual Family Income', 'income', [
+              'Below ₹2 Lakhs', '₹2–5 Lakhs', '₹5–10 Lakhs', '₹10–20 Lakhs', 'Above ₹20 Lakhs'
+            ])}
+          </div>
+        `;
+      } else if (step === 5) {
+        sectionHtml = `
+          <div class="section-head">
+            <div class="eyebrow">${ICONS.zap} <span>06 / VERIFIED PROTOCOL</span><i></i></div>
+            <h1>Terms & Conditions</h1>
+            <p>You're almost there. Please read the terms and policies applied before submission.</p>
+          </div>
+          <div class="terms-layout">
+            <div class="terms-box">
+              <div class="terms-title">
+                <span class="terms-icon">${ICONS.fileCheck}</span>
+                <strong>Student Registration Terms & Policies Applied</strong>
+              </div>
+              <ol>
+                <li>I declare that all personal and academic details provided are true, complete, and correct.</li>
+                <li>I understand that incorrect or misleading information may forfeit admission registration.</li>
+                <li>I agree to comply with all university bylaws, code of conduct, and anti-ragging policies.</li>
+                <li>Terms and Conditions applied. Submission is subject to physical verification of original certificates.</li>
+              </ol>
+              <div class="terms-note">
+                ${ICONS.shieldCheck}
+                <span>Policies and conditions applied. Please use sample/presentation data when demonstrating this college project.</span>
+              </div>
+            </div>
+
+            <label class="terms-check ${data.terms ? 'checked' : ''} ${errors.terms ? 'has-error' : ''}">
+              <input type="checkbox" ${data.terms ? 'checked' : ''} onchange="update('terms', this.checked)" />
+              <span class="custom-check">${data.terms ? ICONS.check : ''}</span>
+              <span>I have read, understood and agree to the Terms, Conditions & Institutional Policies Applied <b>*</b></span>
+            </label>
+            ${errors.terms ? `<em class="terms-error">${ICONS.alert} ${errors.terms}</em>` : ''}
+          </div>
+        `;
+      }
+
+      // Progress Tracker
+      const pct = (step / (STEPS.length - 1)) * 100;
+      const progressStepsHtml = STEPS.map((s, i) => `
+        <div class="progress-step ${i === step ? 'current' : ''} ${i < step ? 'done' : ''}">
+          <div class="progress-dot">
+            ${i < step ? ICONS.check : `<span>${s.kicker}</span>`}
+          </div>
+          <span class="progress-label">${s.label}</span>
+        </div>
+      `).join('');
+
+      // Sidebar Steps
+      const sideStepsHtml = STEPS.map((s, i) => `
+        <button class="side-step ${i === step ? 'active' : ''} ${i < step ? 'complete' : ''}" ${i > step ? 'disabled' : ''} onclick="jump(${i})">
+          <span class="side-icon">${i < step ? ICONS.check : ICONS[s.icon]}</span>
+          <span class="side-text">
+            <b>STEP ${s.kicker}</b>
+            <span>${s.label}</span>
+          </span>
+          ${i === step ? '<span class="active-pip"></span>' : ''}
+        </button>
+      `).join('');
+
+      app.innerHTML = `
+        <div class="app ${dark ? 'dark' : 'light'}">
+          <div class="campus-backdrop"></div>
+          <div class="aurora aurora-one"></div>
+          <div class="aurora aurora-two"></div>
+          <div class="aurora aurora-three"></div>
+          <div class="cyber-grid"></div>
+          <div class="scanlines"></div>
+
+          ${renderHeader()}
+
+          <div class="layout">
+            <aside class="sidebar">
+              <div class="side-caption">
+                ${ICONS.compass}
+                <span>REGISTRATION JOURNEY</span>
+              </div>
+              <div class="side-step-list">
+                ${sideStepsHtml}
+              </div>
+
+              <div class="side-status">
+                <div class="status-icon">${ICONS.zap}</div>
+                <div>
+                  <strong>Instant Sync Active</strong>
+                  <span>Progress cached locally in real-time.</span>
+                </div>
+              </div>
+
+              <div class="side-quote">
+                <div class="quote-mark">“</div>
+                <span>Empowering future engineers and leaders with seamless registration.</span>
+              </div>
+            </aside>
+
+            <main class="main">
+              <div class="progress-wrap">
+                <div class="progress-track">
+                  <div class="progress-bar" style="width: ${pct}%">
+                    <span class="laser-beam"></span>
+                  </div>
+                </div>
+                ${progressStepsHtml}
+              </div>
+
+              <div class="card-shell">
+                <div class="card-shine"></div>
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-tr"></div>
+                <div class="corner corner-bl"></div>
+                <div class="corner corner-br"></div>
+
+                <section class="form-card">
+                  ${sectionHtml}
+
+                  <div class="form-footer">
+                    <button class="secondary" onclick="goBack()" ${step === 0 ? 'disabled' : ''}>
+                      ${ICONS.arrowLeft} Back
+                    </button>
+                    ${step < STEPS.length - 1 ? `
+                      <button class="primary" onclick="goNext()">
+                        <span>Continue</span> ${ICONS.arrowRight}
+                      </button>
+                    ` : `
+                      <button class="primary submit" onclick="submitForm()">
+                        <span>Register Student</span> <span class="flame-icon">${ICONS.flame}</span>
+                      </button>
+                    `}
+                  </div>
+                </section>
+              </div>
+            </main>
+          </div>
+
+          ${renderSiteFooter()}
+
+          ${toast ? `
+            <div class="toast">
+              ${ICONS.help}
+              <span>${toast}</span>
+              <button onclick="setToast('')" aria-label="Close notification">${ICONS.x}</button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // Initial Render
+    render();
+  </script>
+</body>
+</html>
