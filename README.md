@@ -12,9 +12,7 @@ An ultra-modern, high-voltage college admission registration system and student 
 ### 🚀 Live Demo
 
 **Demo Preview:**  
-👉 `https://.github.io/Student-registration-application/preview.html`
-
-> Replace `YOUR-USERNAME` and `YOUR-REPOSITORY` with your GitHub username and repository name after enabling GitHub Pages.
+👉 https://.github.io/Student-registration-application/preview.html
 
 ### 💻 Local Development
 
