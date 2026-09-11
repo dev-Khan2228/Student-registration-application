@@ -114,7 +114,7 @@ EduVerse-Student-Registration/
 ```bash
 git clone https://github.com/dev-khan2228/Student-registration-application
 .git
-cd YOUR-REPOSITORY
+cd Student-registration-application
 ```
 
 ### 2. Install dependencies
@@ -233,9 +233,12 @@ This project is a demonstration/academic application. The login and registration
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Creators
 
 **LATHEEF**
+**SUDHEER**
+**VIVEK**
+**GOWTHAM**
 
 
 ---
