@@ -12,7 +12,7 @@ An ultra-modern, high-voltage college admission registration system and student 
 ### 🚀 Live Demo
 
 **Demo Preview:**  
-👉 '[STUDENT-REGISTRATION-HERE](https://dev-khan2228.github.io/Student-registration-application/preview.html)'
+👉 [STUDENT-REGISTRATION-HERE](https://dev-khan2228.github.io/Student-registration-application/preview.html)
 
 ### 💻 Local Development
 
