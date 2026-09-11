@@ -244,11 +244,6 @@ This project is a demonstration/academic application. The login and registration
 **GOWTHAM**
 
 
----
-
-## 📄 License
-
-This project is available under the **MIT License**.
 
 ---
 
